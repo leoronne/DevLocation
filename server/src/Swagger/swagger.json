@@ -1,0 +1,946 @@
+{
+      "swagger": "2.0",
+      "info": {
+            "title": "Dev Location - API Documentation",
+            "description": "This is a sample server for standard APIs of the application!",
+            "contact": {
+                  "name": "Leonardo Ronne - Product Manager at Visor Brasil",
+                  "email": "leoronne@gmail.com"
+            },
+            "version": "1.0.0",
+            "servers": [
+                  {
+                        "url": "http://localhost:8080",
+                        "description": "Local Host"
+                  },
+                  {
+                        "url": "https://devlocationn.herokuapp.com",
+                        "description": "Production"
+                  },
+                  {
+                        "url": "https://devlocationn-test.herokuapp.com",
+                        "description": "Test"
+                  }
+            ]
+      },
+      "host": [
+            "devlocationn-test.herokuapp.com"
+      ],
+      "basePath": "/",
+      "tags": [
+            {
+                  "name": "Dev"
+            },
+            {
+                  "name": "Session"
+            }
+      ],
+      "schemes": [
+            "http",
+            "https"
+      ],
+      "paths": {
+            "/dev/create": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Create a Dev",
+                        "operationId": "createDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Dev",
+                                    "description": "Create a Dev",
+                                    "required": true,
+                                    "schema": {
+                                          "$ref": "#/definitions/DevRequestDto"
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "200": {
+                                    "description": "Dev's ID",
+                                    "schema": {
+                                          "$ref": "#/definitions/DevIDDto"
+                                    }
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Dev already registered",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "503": {
+                                    "description": "Error while sending email confirmation",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/confirm": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Verify a Dev's account",
+                        "operationId": "confirmDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Dev",
+                                    "description": "Verify a Dev's account",
+                                    "required": true,
+                                    "schema": {
+                                          "$ref": "#/definitions/DevIDDto"
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "Account verified"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Account already verified",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/sendemail": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Send accout verification email",
+                        "operationId": "sendConfirmEmailDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Dev's Email",
+                                    "description": "Send accout verification email",
+                                    "required": true,
+                                    "schema": {
+                                          "type": "object",
+                                          "properties": {
+                                                "email": {
+                                                      "type": "string",
+                                                      "required": "true",
+                                                      "example": "example@gmail.com",
+                                                      "description": "Dev's email"
+                                                }
+                                          }
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "Email was sent"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Account already verified",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/index": {
+                  "get": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Search Devs",
+                        "operationId": "searchDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "query",
+                                    "name": "token",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBiODc0Yzk2IiwiaWF0IjoxNTg1NDQxNDU4LCJleHAiOjE1ODU0ODQ2NTh9.jwv1sR9TIrvhvKiASnEYvgowKlrYaeaWHAKX_nDacrg",
+                                    "description": "Dev's JWT token",
+                                    "type": "string"
+                              },
+                              {
+                                    "in": "query",
+                                    "name": "techs",
+                                    "example": "ReactJS, Node.js",
+                                    "description": "Dev's known techs",
+                                    "type": "string"
+                              },
+                              {
+                                    "in": "query",
+                                    "name": "latitude",
+                                    "example": -20.5566549,
+                                    "description": "Dev's Latitude",
+                                    "type": "number",
+                                    "format": "double"
+                              },
+                              {
+                                    "in": "query",
+                                    "name": "longitude",
+                                    "example": -47.4000366,
+                                    "description": "Dev's Longitude",
+                                    "type": "number",
+                                    "format": "double"
+                              }
+                        ],
+                        "responses": {
+                              "200": {
+                                    "description": "List of devs found",
+                                    "schema": {
+                                          "type": "array",
+                                          "items": {
+                                                "$ref": "#/definitions/IndexResponseDto"
+                                          }
+                                    }
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/delete": {
+                  "delete": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Delete a Dev",
+                        "operationId": "deleteDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Dev",
+                                    "description": "Delete a Dev",
+                                    "required": true,
+                                    "schema": {
+                                          "$ref": "#/definitions/DevIDDto"
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "Dev was deleted"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/forgotpassword": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Send forgot password email",
+                        "operationId": "forgotPasswordDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Email",
+                                    "description": "Dev's email",
+                                    "required": true,
+                                    "schema": {
+                                          "type": "object",
+                                          "properties": {
+                                                "email": {
+                                                      "type": "string",
+                                                      "example": "example@gmail.com",
+                                                      "required": true,
+                                                      "description": "Dev's Email"
+                                                }
+                                          }
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "200": {
+                                    "description": "Dev's password token",
+                                    "schema": {
+                                          "type": "string",
+                                          "example": "a8fa3a3902384bcba4238aa7c8e38638d9aff3a6"
+                                    }
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "503": {
+                                    "description": "Error while sending email",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/validpasswordtoken": {
+                  "get": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Verify password token",
+                        "operationId": "verifypasstokenDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "query",
+                                    "name": "passtoken",
+                                    "required": "true",
+                                    "example": "c55611156019682b378b42ddd34fd6d32436d5b1",
+                                    "description": "Dev's password token",
+                                    "type": "string"
+                              },
+                              {
+                                    "in": "query",
+                                    "name": "token",
+                                    "required": "true",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBiODc0Yzk2IiwiaWF0IjoxNTg1NDQxNDU4LCJleHAiOjE1ODU0ODQ2NTh9.jwv1sR9TIrvhvKiASnEYvgowKlrYaeaWHAKX_nDacrg",
+                                    "description": "Dev's JWT token",
+                                    "type": "string"
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "Tokens are valid"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Password or JWT token are not valid",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/updatepassword": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Update password",
+                        "operationId": "updatePasswordDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Password",
+                                    "description": "Dev's new password",
+                                    "required": true,
+                                    "schema": {
+                                          "type": "object",
+                                          "properties": {
+                                                "password": {
+                                                      "type": "string",
+                                                      "example": "Example1@",
+                                                      "required": true,
+                                                      "description": "Dev's Password"
+                                                }
+                                          }
+                                    }
+                              },
+                              {
+                                    "name": "Authorization",
+                                    "in": "header",
+                                    "required": "true",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBiODc0Yzk2IiwiaWF0IjoxNTg1NDQxNDU4LCJleHAiOjE1ODU0ODQ2NTh9.jwv1sR9TIrvhvKiASnEYvgowKlrYaeaWHAKX_nDacrg",
+                                    "description": "Dev's JWT token",
+                                    "type": "string"
+                              },
+                              {
+                                    "name": "passtoken",
+                                    "in": "header",
+                                    "required": "true",
+                                    "example": "c55611156019682b378b42ddd34fd6d32436d5b1",
+                                    "description": "Dev's password token",
+                                    "type": "string"
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "Password updated"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Password or JWT token are not valid",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "503": {
+                                    "description": "Error while sending email",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/dev/updateuser": {
+                  "post": {
+                        "tags": [
+                              "Dev"
+                        ],
+                        "summary": "Update Dev",
+                        "operationId": "updateDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Dev",
+                                    "description": "Dev's new information",
+                                    "required": true,
+                                    "schema": {
+                                          "type": "object",
+                                          "properties": {
+                                                "name": {
+                                                      "type": "string",
+                                                      "example": "Leonardo Ronne",
+                                                      "description": "Dev's name"
+                                                },
+                                                "techs": {
+                                                      "type": "array",
+                                                      "items": {
+                                                            "type": "string"
+                                                      },
+                                                      "example": [
+                                                            "ReactJS",
+                                                            "Node.js",
+                                                            "React Native",
+                                                            "PHP"
+                                                      ],
+                                                      "description": "Dev's techs"
+                                                },
+                                                "latitude": {
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "example": -47.4000366,
+                                                      "description": "Dev's Latitude coordinate"
+                                                },
+                                                "longitude": {
+                                                      "type": "number",
+                                                      "format": "double",
+                                                      "example": -47.4000366,
+                                                      "description": "Dev's Longitude coordinate"
+                                                }
+                                          }
+                                    }
+                              },
+                              {
+                                    "name": "Authorization",
+                                    "in": "header",
+                                    "required": "true",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBiODc0Yzk2IiwiaWF0IjoxNTg1NDQxNDU4LCJleHAiOjE1ODU0ODQ2NTh9.jwv1sR9TIrvhvKiASnEYvgowKlrYaeaWHAKX_nDacrg",
+                                    "description": "Dev's JWT token",
+                                    "type": "string"
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "User updated"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "JWT token not valid",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/session/login": {
+                  "post": {
+                        "tags": [
+                              "Session"
+                        ],
+                        "summary": "Create a session",
+                        "operationId": "loginDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "body",
+                                    "name": "Credentials",
+                                    "description": "Dev's credentials",
+                                    "required": true,
+                                    "schema": {
+                                          "type": "object",
+                                          "properties": {
+                                                "email": {
+                                                      "type": "string",
+                                                      "example": "example@gmail.com",
+                                                      "required": true,
+                                                      "description": "Dev's Email"
+                                                },
+                                                "password": {
+                                                      "type": "string",
+                                                      "example": "Example1@",
+                                                      "required": true,
+                                                      "description": "Dev's Password"
+                                                }
+                                          }
+                                    }
+                              }
+                        ],
+                        "responses": {
+                              "200": {
+                                    "description": "Email was sent",
+                                    "schema": {
+                                          "$ref": "#/definitions/LoginResponseDto"
+                                    }
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "Invalid credentials or Dev not verified",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            },
+            "/session/validatetoken": {
+                  "get": {
+                        "tags": [
+                              "Session"
+                        ],
+                        "summary": "Verify JWT token",
+                        "operationId": "verifyJWTDev",
+                        "consumes": [
+                              "application/json"
+                        ],
+                        "produces": [
+                              "application/json"
+                        ],
+                        "parameters": [
+                              {
+                                    "in": "query",
+                                    "name": "token",
+                                    "required": "true",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBiODc0Yzk2IiwiaWF0IjoxNTg1NDQxNDU4LCJleHAiOjE1ODU0ODQ2NTh9.jwv1sR9TIrvhvKiASnEYvgowKlrYaeaWHAKX_nDacrg",
+                                    "description": "Dev's JWT token",
+                                    "type": "string"
+                              }
+                        ],
+                        "responses": {
+                              "204": {
+                                    "description": "JWT Token is valid"
+                              },
+                              "400": {
+                                    "description": "Validation error",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "401": {
+                                    "description": "invalid JWT token",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "404": {
+                                    "description": "Dev not found",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              },
+                              "500": {
+                                    "description": "Internal error while processing request",
+                                    "schema": {
+                                          "$ref": "#/definitions/ErrorResponseDto"
+                                    }
+                              }
+                        }
+                  }
+            }
+      },
+      "definitions": {
+            "DevRequestDto": {
+                  "type": "object",
+                  "required": [
+                        "email",
+                        "githubUser",
+                        "password",
+                        "techs",
+                        "latitude",
+                        "longitude"
+                  ],
+                  "properties": {
+                        "email": {
+                              "type": "string",
+                              "example": "example@gmail.com",
+                              "description": "Dev's email"
+                        },
+                        "githubUser": {
+                              "type": "string",
+                              "example": "example",
+                              "description": "Dev's GitHub user"
+                        },
+                        "password": {
+                              "type": "string",
+                              "example": "Example1@",
+                              "description": "Dev's password, it must contain at least: 8 characters; a lowercase letter and a capital letter; a number; a special character"
+                        },
+                        "techs": {
+                              "type": "array",
+                              "items": {
+                                    "type": "string"
+                              },
+                              "example": [
+                                    "ReactJS",
+                                    "Node.js",
+                                    "React Native",
+                                    "PHP"
+                              ],
+                              "description": "Dev's techs"
+                        },
+                        "latitude": {
+                              "type": "number",
+                              "format": "double",
+                              "example": -47.4000366,
+                              "description": "Dev's Latitude coordinate"
+                        },
+                        "longitude": {
+                              "type": "number",
+                              "format": "double",
+                              "example": -47.4000366,
+                              "description": "Dev's Longitude coordinate"
+                        }
+                  },
+                  "description": "Dev registration"
+            },
+            "IndexResponseDto": {
+                  "type": "object",
+                  "properties": {
+                        "techs": {
+                              "type": "array",
+                              "items": {
+                                    "type": "string"
+                              },
+                              "example": [
+                                    "ReactJS",
+                                    "Node.js",
+                                    "React Native",
+                                    "PHP"
+                              ],
+                              "description": "Dev's techs"
+                        },
+                        "active": {
+                              "type": "boolean",
+                              "example": true,
+                              "description": "Dev's account situation"
+                        },
+                        "_id": {
+                              "type": "string",
+                              "example": "5e8a0b105e2f0441f0c1a4f3",
+                              "description": "Dev's ID"
+                        },
+                        "name": {
+                              "type": "string",
+                              "example": "Leonardo Ronne",
+                              "description": "Dev's name"
+                        },
+                        "email": {
+                              "type": "string",
+                              "example": "example@gmail.com",
+                              "description": "Dev's email"
+                        },
+                        "githubUser": {
+                              "type": "string",
+                              "example": "example",
+                              "description": "Dev's GitHub user"
+                        },
+                        "bio": {
+                              "type": "string",
+                              "example": "Product Manager at @visoradl. Passionate about everything that involves technology and programming.",
+                              "description": "Dev's GitHub bio"
+                        },
+                        "avatar_url": {
+                              "type": "string",
+                              "example": "https://avatars0.githubusercontent.com/u/47757685?v=4",
+                              "description": "Dev's GitHub avatar URL"
+                        },
+                        "location": {
+                              "type": "object",
+                              "description": "Dev's location",
+                              "properties": {
+                                    "coordinates":{
+                                          "type": "array",
+                                          "items": {
+                                                "type": "number"
+                                          },
+                                          "example": [
+                                                -47.398108199999996,
+                                                -20.560764799999998
+                                          ],
+                                          "description": "Dev's coordinates ([0] - Longitude and [1] - Latitude)"
+                                    }
+                              }
+                        }
+                  },
+                  "description": "List of Devs"
+            },
+            "DevIDDto": {
+                  "type": "object",
+                  "required": [
+                        "id"
+                  ],
+                  "properties": {
+                        "id": {
+                              "type": "string",
+                              "example": "5e80f24cc4106802c40db3a7",
+                              "description": "Dev's ID"
+                        }
+                  },
+                  "description": "Dev's ID"
+            },
+            "ErrorResponseDto": {
+                  "type": "object",
+                  "properties": {
+                        "message": {
+                              "type": "string",
+                              "example": "Error message",
+                              "description": "Error description"
+                        }
+                  }
+            },
+            "LoginResponseDto": {
+                  "type": "object",
+                  "properties": {
+                        "token": {
+                              "type": "string",
+                              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJmMjExNzg2IiwiaWF0IjoxNTg1NDEwNjIyLCJleHAiOjE1ODU0NTM4MjJ9.acuyHCTFuuXj34OLMX4_zXEkmA9bnazMdSwU53WAFxc",
+                              "description": "JWT Token"
+                        },
+                        "name": {
+                              "type": "string",
+                              "example": "Leonardo Ronne",
+                              "description": "Dev name"
+                        }
+                  }
+            }
+      }
+}

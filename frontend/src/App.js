@@ -1,0 +1,25 @@
+import React from 'react';
+
+import { ToastContainer } from 'react-toastify';
+import Routes from './routes';
+
+import './assets/css/Global.css';
+
+function App() {
+  return (<>
+    <ToastContainer
+      autoClose={5000}
+      hideProgressBar
+      newestOnTop
+      closeOnClick
+      rtl={false}
+      pauseOnVisibilityChange={false}
+      draggable
+      pauseOnHover={false}
+    />
+    <Routes />
+  </>
+  );
+}
+
+export default App;

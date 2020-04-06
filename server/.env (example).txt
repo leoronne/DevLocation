@@ -1,0 +1,20 @@
+//Application name
+APP_NAME=DevLocation
+
+//Web URL of the application
+APP_URL=https://dev-location-88037.firebaseapp.com/
+
+//Authentication crypto for JWT token
+AUTH=
+
+//Mongo's collection URL
+MONGO_URL=
+
+//Gmail user (optional)
+GMAIL_USER=
+
+//SendGrid user (for emails)
+MAIL_USER=
+
+//SendGrid password
+MAIL_PASS=
