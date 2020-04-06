@@ -19,7 +19,6 @@ app.get('/api-doc.json', function (req, res) {
       res.setHeader('Content-Type', 'application/json');
       res.send(swaggerConfiguration.swaggerSpec);
 });
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfiguration.swaggerSpec, swaggerConfiguration.swaggerConfig));
 
 app.use(cors());
